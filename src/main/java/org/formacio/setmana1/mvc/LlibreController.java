@@ -1,6 +1,9 @@
 package org.formacio.setmana1.mvc;
 
+import org.formacio.setmana1.data.LlibreNoExisteixException;
+import org.formacio.setmana1.data.LlibreOpsBasic;
 import org.formacio.setmana1.domini.Recomanacio;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,13 +19,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class LlibreController {
 
 	// Per aqui vos fara falta una referencia a un LlibreOpsBasic
+	@Autowired
+	private LlibreOpsBasic operacions;
 	
+	@RequestMapping(path = "/titol")
+	@ResponseBody
+	public String obte_titol (String isbn) throws LlibreNoExisteixException {
+		return operacions.carrega(isbn).getTitol();
+	}
 	// Aquestes anotacions i firma del metode ja son correctes
 	@RequestMapping(path="/recomanacio")
 	@ResponseBody
- 	public Recomanacio obteLlibre (String isbn) {
+ 	public Recomanacio obteLlibre (String isbn) throws LlibreNoExisteixException {
 		// Feis que retorni la recomanacio per el llibre indicat 
 		// emprat LlibreOpsBasic
-		return null; 
+		return operacions.recomenacioPer(isbn); 
 	}
 }
