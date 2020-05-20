@@ -56,9 +56,8 @@ public class LlibreOpsBasic {
 	 */
 	@Transactional
 	public boolean elimina (String isbn) {
-		Optional<Llibre> llibreExistent = Optional.ofNullable(em.find(Llibre.class, isbn));
-		if(llibreExistent.isPresent()) {
-			em.remove(llibreExistent.get());
+		if(existeix(isbn)) {
+			em.remove(em.find(Llibre.class, isbn));
 			return true;
 		} else {
 			return false;
@@ -70,7 +69,9 @@ public class LlibreOpsBasic {
 	 */
 	@Transactional
 	public void modifica (Llibre llibre) {
-		
+		if(existeix(llibre.getIsbn())) {
+			em.merge(llibre);
+		}
 	}
 	
 	/**
@@ -86,8 +87,13 @@ public class LlibreOpsBasic {
 	 * Retorna quina es la recomanacio per el llibre indicat
 	 * Si el llibre indicat no existeix, retorna null
 	 */
-	public Recomanacio recomenacioPer (String isbn) {
-		return null;
+	public Recomanacio recomenacioPer (String isbn) throws LlibreNoExisteixException {
+		if (existeix(isbn)) {
+			Llibre llibre = carrega(isbn);
+			return llibre.getRecomanacio();
+		} else {
+			return null;
+		}
 	}
 	
 }

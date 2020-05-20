@@ -115,7 +115,7 @@ public class JpaBasicApplicationTests {
 	}
 	
 	@Test
-	public void test_recomanacio() {
+	public void test_recomanacio() throws LlibreNoExisteixException {
 		Assert.assertNull(operacions.recomenacioPer("No existeix"));
 		Assert.assertEquals(Recomanacio.OBRA_MESTRE, operacions.recomenacioPer(ISBN));
 	}
