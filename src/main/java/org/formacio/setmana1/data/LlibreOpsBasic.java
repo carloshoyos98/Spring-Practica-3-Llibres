@@ -54,14 +54,23 @@ public class LlibreOpsBasic {
 	 * @param isbn del llibre a eliminar
 	 * @return true si s'ha esborrat el llibre, false si no existia
 	 */
+	@Transactional
 	public boolean elimina (String isbn) {
-		return true;
+		Optional<Llibre> llibreExistent = Optional.ofNullable(em.find(Llibre.class, isbn));
+		if(llibreExistent.isPresent()) {
+			em.remove(llibreExistent.get());
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	/**
 	 * Guarda a bbdd l'estat del llibre indicat
 	 */
+	@Transactional
 	public void modifica (Llibre llibre) {
+		
 	}
 	
 	/**
@@ -69,7 +78,8 @@ public class LlibreOpsBasic {
 	 * (Aquest metode no llanca excepcions!)
 	 */
 	public boolean existeix (String isbn) {
-		return false;
+		Optional<Llibre> llibreExistent = Optional.ofNullable(em.find(Llibre.class, isbn));
+		return llibreExistent.isPresent();
 	}
 
 	/**
