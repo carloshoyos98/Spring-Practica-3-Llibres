@@ -18,7 +18,7 @@ import javax.persistence.Table;
 @Table(name = "T_LLIBRES")
 public class Llibre {
 	
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
 	@Column(name = "LLI_ISBN")
 	private String isbn;
 	
